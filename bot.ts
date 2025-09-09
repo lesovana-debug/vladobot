@@ -1,4 +1,4 @@
-import { Telegraf, Context, Scenes } from 'telegraf';
+import { Telegraf, Context } from 'telegraf';
 import { telegramConfig } from './config';
 import { logger, createChildLogger } from './logging';
 import { db } from './storage';
@@ -11,6 +11,9 @@ import { SchedulerService } from './scheduler';
  */
 interface BotContext extends Context {
   chatLogger: ReturnType<typeof createChildLogger>;
+  message?: any;
+  chat?: any;
+  from?: any;
 }
 
 /**
@@ -35,7 +38,7 @@ export class VladoBot {
    */
   private setupMiddleware(): void {
     // Logging middleware
-    this.bot.use(async (ctx, next) => {
+    this.bot.use(async (ctx: any, next: any) => {
       ctx.chatLogger = createChildLogger({
         chatId: ctx.chat?.id?.toString(),
         userId: ctx.from?.id?.toString(),
@@ -51,7 +54,7 @@ export class VladoBot {
     });
 
     // Chat registration middleware
-    this.bot.use(async (ctx, next) => {
+    this.bot.use(async (ctx: any, next: any) => {
       if (ctx.chat && ctx.from) {
         await this.registerChatAndUser(ctx);
       }
@@ -64,7 +67,7 @@ export class VladoBot {
    */
   private setupCommands(): void {
     // Start command
-    this.bot.start(async (ctx) => {
+    this.bot.start(async (ctx: any) => {
       const helpText = `🤖 **VladoBot** - Ежедневные дайджесты чатов
 
 Я создаю ежедневные саммари переписки в групповых чатах, включая транскрипцию голосовых сообщений и видеокружков.
@@ -87,7 +90,7 @@ export class VladoBot {
     });
 
     // Help command
-    this.bot.help(async (ctx) => {
+    this.bot.help(async (ctx: any) => {
       const helpText = `📖 **Полная справка VladoBot**
 
 **Команды для настройки:**
@@ -117,7 +120,7 @@ export class VladoBot {
     });
 
     // Set time command
-    this.bot.command('settime', async (ctx) => {
+    this.bot.command('settime', async (ctx: any) => {
       const args = ctx.message.text.split(' ').slice(1);
       if (args.length === 0) {
         await ctx.reply('❌ Укажите время в формате HH:MM\nПример: /settime 21:00');
@@ -142,7 +145,7 @@ export class VladoBot {
     });
 
     // Set timezone command
-    this.bot.command('settimezone', async (ctx) => {
+    this.bot.command('settimezone', async (ctx: any) => {
       const args = ctx.message.text.split(' ').slice(1);
       if (args.length === 0) {
         const timezones = SchedulerService.getAvailableTimezones();
@@ -169,7 +172,7 @@ export class VladoBot {
     });
 
     // Set target command
-    this.bot.command('settarget', async (ctx) => {
+    this.bot.command('settarget', async (ctx: any) => {
       const args = ctx.message.text.split(' ').slice(1);
       if (args.length === 0) {
         await ctx.reply('❌ Укажите username для тега\nПример: /settarget @vlad311');
@@ -193,7 +196,7 @@ export class VladoBot {
     });
 
     // Opt out command
-    this.bot.command('optout', async (ctx) => {
+    this.bot.command('optout', async (ctx: any) => {
       if (!ctx.from) {
         await ctx.reply('❌ Не удалось определить пользователя');
         return;
@@ -204,7 +207,7 @@ export class VladoBot {
     });
 
     // Opt in command
-    this.bot.command('optin', async (ctx) => {
+    this.bot.command('optin', async (ctx: any) => {
       if (!ctx.from) {
         await ctx.reply('❌ Не удалось определить пользователя');
         return;
@@ -215,7 +218,7 @@ export class VladoBot {
     });
 
     // Preview command
-    this.bot.command('preview', async (ctx) => {
+    this.bot.command('preview', async (ctx: any) => {
       if (!ctx.chat) {
         await ctx.reply('❌ Эта команда работает только в групповых чатах');
         return;
@@ -236,7 +239,7 @@ export class VladoBot {
     });
 
     // Status command
-    this.bot.command('status', async (ctx) => {
+    this.bot.command('status', async (ctx: any) => {
       if (!ctx.chat) {
         await ctx.reply('❌ Эта команда работает только в групповых чатах');
         return;
@@ -277,7 +280,7 @@ export class VladoBot {
    */
   private setupMessageHandlers(): void {
     // Handle all messages
-    this.bot.on('message', async (ctx) => {
+    this.bot.on('message', async (ctx: any) => {
       if (!ctx.chat || !ctx.from || !ctx.message) return;
 
       try {
@@ -433,7 +436,7 @@ export class VladoBot {
    * Setup error handling
    */
   private setupErrorHandling(): void {
-    this.bot.catch((err, ctx) => {
+    this.bot.catch((err: any, ctx: any) => {
       logger.error('Bot error', {
         error: err.message,
         stack: err.stack,
@@ -442,11 +445,11 @@ export class VladoBot {
       });
     });
 
-    process.on('unhandledRejection', (reason, promise) => {
+    process.on('unhandledRejection', (reason: any, promise: any) => {
       logger.error('Unhandled Rejection', { reason, promise });
     });
 
-    process.on('uncaughtException', (error) => {
+    process.on('uncaughtException', (error: any) => {
       logger.error('Uncaught Exception', { error: error.message, stack: error.stack });
       process.exit(1);
     });
