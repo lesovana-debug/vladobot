@@ -5,7 +5,7 @@
   "main": "dist/bot.js",
   "scripts": {
     "dev": "tsx watch src/bot.ts",
-    "build": "tsc",
+    "build": "tsc --skipLibCheck",
     "start": "node dist/bot.js",
     "migrate": "tsx src/migrations/migrate.ts",
     "seed": "tsx src/scripts/seed.ts",
