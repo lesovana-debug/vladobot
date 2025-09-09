@@ -24,6 +24,22 @@ export const createChildLogger = (context: Record<string, any>) => {
 };
 
 /**
+ * Simple event logging function to avoid 'never' type issues
+ */
+export function logEvent(event: string, payload?: Record<string, unknown>) {
+  logger.info({ event, ...payload });
+}
+
+/**
+ * Factory function for event loggers
+ */
+export function makeEventLogger(event: string) {
+  return (payload?: Record<string, unknown>) => {
+    logger.info({ event, ...payload });
+  };
+}
+
+/**
  * Log levels for reference
  */
 export const LogLevel = {
