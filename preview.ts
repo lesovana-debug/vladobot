@@ -25,7 +25,7 @@ async function generatePreview(): Promise<void> {
     console.log(`Total messages (7 days): ${stats.totalMessages}`);
     console.log(`Average per day: ${stats.averagePerDay}`);
     console.log('Most active users:');
-    stats.mostActiveUsers.forEach((user, index) => {
+    stats.mostActiveUsers.forEach((user: any, index: any) => {
       console.log(`  ${index + 1}. ${user.username}: ${user.messageCount} messages`);
     });
     console.log('Message types:');
