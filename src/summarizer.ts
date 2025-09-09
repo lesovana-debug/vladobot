@@ -90,7 +90,7 @@ export class DailySummarizer {
     );
 
     // Filter out messages from opted-out users
-    const filteredMessages = rawMessages.filter((msg: any) => !msg.is_opted_out);
+    const filteredMessages = rawMessages.filter((msg: any) => !(msg as any).is_opted_out);
 
     // Process messages and add transcripts
     const processedMessages: ProcessedMessage[] = [];
@@ -99,9 +99,9 @@ export class DailySummarizer {
       const processed: ProcessedMessage = {
         id: msg.message_id,
         user: {
-          username: msg.username,
-          firstName: msg.first_name,
-          lastName: msg.last_name,
+          username: (msg as any).username,
+          firstName: (msg as any).first_name,
+          lastName: (msg as any).last_name,
         },
         type: msg.message_type as ProcessedMessage['type'],
         content: msg.content,
@@ -172,8 +172,8 @@ _Сегодня в чате было тихо. Возможно, все заня
     const messageTypeCounts: Record<string, number> = {};
 
     for (const msg of messages) {
-      if (!msg.is_opted_out) {
-        const username = msg.username || msg.first_name;
+      if (!(msg as any).is_opted_out) {
+        const username = (msg as any).username || (msg as any).first_name;
         userCounts.set(username, (userCounts.get(username) || 0) + 1);
         
         messageTypeCounts[msg.message_type] = (messageTypeCounts[msg.message_type] || 0) + 1;

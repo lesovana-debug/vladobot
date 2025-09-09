@@ -1,20 +1,19 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2020",
     "module": "commonjs",
-    "lib": ["ES2022", "DOM"],
+    "lib": ["ES2020"],
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "./src",
     "strict": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "removeComments": false,
+    "declaration": false,
+    "sourceMap": false,
+    "removeComments": true,
     "noImplicitAny": false,
     "noImplicitReturns": false,
     "noImplicitThis": false,
@@ -24,12 +23,8 @@
     "noImplicitOverride": false,
     "noPropertyAccessFromIndexSignature": false,
     "noUncheckedIndexedAccess": false,
-    "moduleResolution": "node",
-    "baseUrl": "./",
-    "paths": {
-      "*": ["node_modules/*", "src/*"]
-    }
+    "moduleResolution": "node"
   },
-  "include": ["src/**/*", "*.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
