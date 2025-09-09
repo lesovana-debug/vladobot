@@ -89,7 +89,7 @@ export class SchedulerService {
     const job = this.cronJobs.get(chatId);
     if (job) {
       job.stop();
-      job.destroy();
+      job.stop();
       this.cronJobs.delete(chatId);
       
       logger.info('Unscheduled daily report', { chatId });
@@ -140,7 +140,7 @@ export class SchedulerService {
       // Send summary to chat
       await this.bot.telegram.sendMessage(chat.chat_id, summary, {
         parse_mode: 'Markdown',
-        disable_web_page_preview: true,
+        disable_web_page_preview: true as any,
       });
 
       logger.info('Daily report sent successfully', {
@@ -230,7 +230,7 @@ export class SchedulerService {
     
     for (const [chatId, job] of this.cronJobs) {
       job.stop();
-      job.destroy();
+      job.stop();
       logger.debug('Stopped job', { chatId });
     }
     

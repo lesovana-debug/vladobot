@@ -11,9 +11,6 @@ import { SchedulerService } from './scheduler';
  */
 interface BotContext extends Context {
   chatLogger: ReturnType<typeof createChildLogger>;
-  message?: any;
-  chat?: any;
-  from?: any;
 }
 
 /**

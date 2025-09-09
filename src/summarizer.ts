@@ -106,7 +106,7 @@ export class DailySummarizer {
         type: msg.message_type as ProcessedMessage['type'],
         content: msg.content,
         timestamp: msg.created_at,
-        replyTo: msg.reply_to_message_id,
+        replyTo: msg.reply_to_message_id || undefined,
       };
 
       // Add transcript for voice/audio messages
