@@ -52,7 +52,7 @@ async function seedDatabase(): Promise<void> {
     }
 
     // Create test messages for today
-    const today = new Date();
+    // const today = new Date();
     const messages = [
       {
         chat_id: testChat.chat_id,
