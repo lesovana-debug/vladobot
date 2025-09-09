@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  vlabobot:
+    build: .
+    container_name: vlabobot
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - BOT_TOKEN=${BOT_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - REPORT_TIME_DEFAULT=${REPORT_TIME_DEFAULT:-21:00}
+      - TIMEZONE_DEFAULT=${TIMEZONE_DEFAULT:-Europe/Berlin}
+      - TARGET_USERNAME=${TARGET_USERNAME:-@vlad311}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - MAX_DAILY_TOKENS=${MAX_DAILY_TOKENS:-10000}
+      - TELEGRAM_FILE_SIZE_LIMIT_MB=${TELEGRAM_FILE_SIZE_LIMIT_MB:-20}
+    volumes:
+      # Persistent storage for SQLite database
+      - ./data:/app/data
+      # Temporary files for audio processing
+      - ./temp:/app/temp
+    networks:
+      - vlabobot-network
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+networks:
+  vlabobot-network:
+    driver: bridge
+
+# Optional: Add a volume for persistent data
+volumes:
+  vlabobot-data:
+    driver: local
