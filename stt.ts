@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 import axios from 'axios';
 import ffmpeg from 'fluent-ffmpeg';
-import { mkdirSync, existsSync, writeFileSync, unlinkSync } from 'fs';
+import { mkdirSync, existsSync, unlinkSync } from 'fs';
 import { join, extname } from 'path';
 import { openaiConfig, telegramConfig } from './config';
 import { logger } from './logging';
@@ -155,7 +155,7 @@ export class SpeechToTextService {
         .audioChannels(1)
         .audioFrequency(16000)
         .on('end', () => resolve(outputPath))
-        .on('error', (err) => {
+        .on('error', (err: any) => {
           logger.error('FFmpeg conversion failed', { 
             inputPath, 
             error: err.message 
