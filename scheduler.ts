@@ -3,7 +3,7 @@ import { Telegraf } from 'telegraf';
 import { db, Chat } from './storage';
 import { summarizer } from './summarizer';
 import { logger } from './logging';
-import { schedulerConfig } from './config';
+// import { schedulerConfig } from './config';
 
 /**
  * Scheduler service for managing daily reports
@@ -209,7 +209,7 @@ export class SchedulerService {
   /**
    * Get next execution time for a cron job
    */
-  private getNextExecution(job: cron.ScheduledTask): string | null {
+  private getNextExecution(job: any): string | null {
     try {
       // This is a simplified approach - in a real implementation,
       // you might want to use a more sophisticated method to get next execution
