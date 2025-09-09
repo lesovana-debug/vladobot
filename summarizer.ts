@@ -1,4 +1,4 @@
-import { db, Message, User, Transcript } from './storage';
+import { db } from './storage';
 import { LLMProvider, LLMProviderFactory, ProcessedMessage, SummaryContext } from './llm';
 import { logger } from './logging';
 
@@ -90,7 +90,7 @@ export class DailySummarizer {
     );
 
     // Filter out messages from opted-out users
-    const filteredMessages = rawMessages.filter(msg => !msg.is_opted_out);
+    const filteredMessages = rawMessages.filter((msg: any) => !msg.is_opted_out);
 
     // Process messages and add transcripts
     const processedMessages: ProcessedMessage[] = [];
@@ -106,7 +106,7 @@ export class DailySummarizer {
         type: msg.message_type as ProcessedMessage['type'],
         content: msg.content,
         timestamp: msg.created_at,
-        replyTo: msg.reply_to_message_id || undefined,
+        replyTo: msg.reply_to_message_id,
       };
 
       // Add transcript for voice/audio messages
