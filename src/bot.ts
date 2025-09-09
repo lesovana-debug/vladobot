@@ -411,7 +411,7 @@ export class VladoBot {
     // Register chat
     db.upsertChat({
       chat_id: chatId,
-      title: ctx.chat.title || ctx.chat.first_name || 'Unknown Chat',
+      title: (ctx.chat as any).title || (ctx.chat as any).first_name || 'Unknown Chat',
       type: ctx.chat.type as 'group' | 'supergroup' | 'channel',
       report_time: '21:00',
       timezone: 'Europe/Berlin',

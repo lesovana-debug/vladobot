@@ -140,7 +140,7 @@ export class SchedulerService {
       // Send summary to chat
       await this.bot.telegram.sendMessage(chat.chat_id, summary, {
         parse_mode: 'Markdown',
-        disable_web_page_preview: true as any,
+        link_preview_options: { is_disabled: true },
       });
 
       logger.info('Daily report sent successfully', {
